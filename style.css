@@ -25,42 +25,41 @@ button {
 }
 
 .container {
-  width: 100%;
-  min-height: 100vh;
+  max-width: 1000px;
+  margin: 0 auto;
   display: flex;
-  flex-wrap: wrap;
   gap: 30px;
-  align-items: center;
-  justify-content: center;
   padding: 60px;
 }
 
 .main {
   display: flex;
-  flex-wrap: wrap;
-  gap: 40px;
+  /*flex-direction: column;*/
+  gap: 20px;
+  width: 100%;
 }
 
 .inner {
+  display: flex;
+  flex-direction: column;
   border: 1px solid grey;
   padding: 10px 20px 20px;
   border-radius: 1.5rem;
   background: #111;
-  flex: 1 1 220px;
 }
 
-@media (max-width: 600px) {
-  .inner {
-    flex: 1 1 100%;
-  }
+@media (max-width: 550px) {
+.main {
+  flex-direction: column;
+}
 }
 
 .converter {
-  /*min-width: 330px;*/
+  width: 100%;
 }
 
 .rate-viewer {
-  /*min-width: 380px;*/
+  width: 100%;
 }
 
 .title {
@@ -115,7 +114,11 @@ button {
 
 .currency-values, .rate-viewer__currency-values {
   display: flex;
+}
+
+.currency-values {
   margin-bottom: 20px;
+
 }
 
 .labels, .values, .rate-viewer__labels, .rate-viewer__values {

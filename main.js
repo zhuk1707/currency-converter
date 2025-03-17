@@ -154,14 +154,16 @@ function isDateGreaterThanDate(strDateA, strDateB) {
 function renderRateViewer(dateStr) {
   const rateViewerLabels = document.querySelector('.rate-viewer__labels')
   const rateViewerValues = document.querySelector('.rate-viewer__values')
-  const lastAvailableDate = Object.keys(fakeRatesData).sort((a, b) => (isDateGreaterThanDate(a, b) ? 1 : -1))[0]
+  const lastAvailableDate = Object.keys(fakeRatesData)
+    .sort((a, b) => (isDateGreaterThanDate(a, b) ? 1 : -1))[0]
   const rate = fakeRatesData.hasOwnProperty(dateStr)
     ? fakeRatesData[dateStr]
     : fakeRatesData[lastAvailableDate]
 
   rateViewerLabels.innerHTML = Object.entries(rate)
     .map((el) => {
-      return `<label class="rate-viewer__label">${el[0].toUpperCase()}</label>`
+      return `<label class="rate-viewer__label">${el[0]
+        .toUpperCase()}</label>`
     }).join(' ')
 
   rateViewerValues.innerHTML = Object.entries(rate)
@@ -183,27 +185,43 @@ datepicker.addEventListener('change', function (event) {
     deleteNote()
     renderRateViewer(selectedDateValue)
   } else {
+    clearRateViewer()
     renderNote()
+  }
+
+  if (selectedDateValue === '') {
+    deleteNote()
+    clearRateViewer()
   }
 });
 
 function renderNote() {
   const rateViewer = document.querySelector('.rate-viewer')
-  rateViewer.innerHTML = rateViewer.innerHTML
-    + `<div class="rate-viewer__note">
-         <h3>We cannot know the future</h3>
-         <p>Please choose a different date</p>
-       </div>`
+  const rateViewerNote = document.querySelector('.rate-viewer__note')
+  if (rateViewerNote) return
+
+  const fragment = document.createElement('div')
+  fragment.classList.add('rate-viewer__note')
+
+  fragment.innerHTML = `<h3>We cannot know the future</h3>
+   <p>Please choose a different date</p>`
+
+  rateViewer.appendChild(fragment)
 }
 
 function deleteNote() {
   const rateViewer = document.querySelector('.rate-viewer__note')
-  console.log(rateViewer)
+  if (rateViewer)  rateViewer.remove()
 }
 
+function clearRateViewer() {
+  const rateViewerLabels = document.querySelector('.rate-viewer__labels')
+  const rateViewerValues = document.querySelector('.rate-viewer__values')
+
+  rateViewerLabels.innerHTML = ' '
+  rateViewerValues.innerHTML = ' '
+}
 
 // invokes
 renderLabels()
-
-
 
